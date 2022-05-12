@@ -1,0 +1,78 @@
+syntax = "proto3";
+
+// python -m grpc_tools.protoc -I. --python_out=. --grpc_python_out=. takler/server/protocol/takler.proto
+// protoc --go_out=. --go_opt=paths=source_relative --go-grpc_out=. --go-grpc_opt=paths=source_relative .\takler_protocol\takler.proto
+
+option go_package = "github.com/perillaroc/takler-client/takler_protocol";
+
+package takler_protocol;
+
+message ServiceResponse{
+  int32 flag = 1;
+  string message = 2;
+}
+
+// child command
+
+message ChildCommandOptions {
+  string node_path = 1;
+}
+
+message InitCommand {
+  ChildCommandOptions child_options = 1;
+  string task_id = 2;
+}
+
+message CompleteCommand {
+  ChildCommandOptions child_options = 1;
+}
+
+message AbortCommand {
+  ChildCommandOptions child_options = 1;
+  string reason = 2;
+}
+
+message EventCommand {
+  ChildCommandOptions child_options = 1;
+  string event_name = 2;
+}
+
+message MeterCommand {
+  ChildCommandOptions child_options = 1;
+  string meter_name = 2;
+  string meter_value = 3;
+}
+
+
+// control command
+
+message RequeueCommand {
+  string node_path = 1;
+}
+
+// query command
+
+message ShowRequest{
+}
+
+message ShowResponse{
+  string output = 1;
+}
+
+service TaklerServer {
+
+  // child command
+  rpc RunInitCommand(InitCommand) returns (ServiceResponse){}
+  rpc RunCompleteCommand(CompleteCommand) returns (ServiceResponse){}
+  rpc RunAbortCommand(AbortCommand) returns (ServiceResponse){}
+  rpc RunEventCommand(EventCommand) returns (ServiceResponse){}
+  rpc RunMeterCommand(MeterCommand) returns (ServiceResponse){}
+
+  // control command
+
+  rpc RunRequeueCommand(RequeueCommand) returns (ServiceResponse){}
+
+  // query command
+
+  rpc RunShowRequest(ShowRequest) returns (ShowResponse){}
+}
