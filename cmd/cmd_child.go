@@ -47,10 +47,14 @@ func newInitCommand() *initCommand {
 }
 
 func (mc *initCommand) runCommand(cmd *cobra.Command, args []string) error {
-	fmt.Printf("%s:%s init %s with %s\n",
-		mc.childOptions.host, mc.childOptions.port, mc.childOptions.nodePath, mc.taskId)
+	host := getHost(mc.childOptions.host)
+	port := getPort(mc.childOptions.port)
+	nodePath := getNodePath(mc.childOptions.nodePath)
 
-	serverAddr := fmt.Sprintf("%s:%s", mc.childOptions.host, mc.childOptions.port)
+	taskId := mc.taskId
+	fmt.Printf("%s:%s init %s with %s\n", host, port, nodePath, taskId)
+
+	serverAddr := fmt.Sprintf("%s:%s", host, port)
 	conn, err := grpc.Dial(serverAddr, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		log.Fatalf("did not connect: %v", err)
@@ -61,11 +65,12 @@ func (mc *initCommand) runCommand(cmd *cobra.Command, args []string) error {
 
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
+
 	r, err := c.RunInitCommand(ctx, &pb.InitCommand{
 		ChildOptions: &pb.ChildCommandOptions{
-			NodePath: mc.childOptions.nodePath,
+			NodePath: nodePath,
 		},
-		TaskId: mc.taskId,
+		TaskId: taskId,
 	})
 
 	if err != nil {
