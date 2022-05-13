@@ -19,6 +19,7 @@ type ChildCommand struct {
 /*********************************************
 	init
  *********************************************/
+
 type initCommand struct {
 	ChildCommand
 
@@ -61,6 +62,7 @@ func (mc *initCommand) runCommand(cmd *cobra.Command, args []string) error {
 /*********************************************
 	complete
  *********************************************/
+
 type completeCommand struct {
 	ChildCommand
 }
@@ -98,6 +100,7 @@ func (mc *completeCommand) runCommand(cmd *cobra.Command, args []string) error {
 /*********************************************
 	abort
  *********************************************/
+
 type abortCommand struct {
 	ChildCommand
 
@@ -132,6 +135,96 @@ func (mc *abortCommand) runCommand(cmd *cobra.Command, args []string) error {
 
 	client := common.CreateTaklerServiceClient(host, port)
 	client.RunCommandAbort(nodePath, reason)
+
+	return nil
+}
+
+/*********************************************
+	event
+ *********************************************/
+
+type eventCommand struct {
+	ChildCommand
+
+	eventName string
+}
+
+func newEventCommand() *eventCommand {
+	c := &eventCommand{}
+	eventCmd := &cobra.Command{
+		Use:   "event",
+		Short: "event",
+		Long:  "event",
+		RunE:  c.runCommand,
+	}
+
+	eventCmd.Flags().StringVar(&c.childOptions.host, "host", "", "takler host")
+	eventCmd.Flags().StringVar(&c.childOptions.port, "port", "", "takler port")
+	eventCmd.Flags().StringVar(&c.childOptions.nodePath, "node-path", "", "node path")
+	eventCmd.Flags().StringVar(&c.eventName, "event-name", "", "event name")
+	eventCmd.MarkFlagRequired("event-name")
+
+	c.cmd = eventCmd
+	return c
+}
+
+func (mc *eventCommand) runCommand(cmd *cobra.Command, args []string) error {
+	host := getHost(mc.childOptions.host)
+	port := getPort(mc.childOptions.port)
+	nodePath := getNodePath(mc.childOptions.nodePath)
+	eventName := mc.eventName
+
+	fmt.Printf("%s:%s event %s: %s\n", host, port, nodePath, eventName)
+
+	client := common.CreateTaklerServiceClient(host, port)
+	client.RunCommandEvent(nodePath, eventName)
+
+	return nil
+}
+
+/*********************************************
+	meter
+ *********************************************/
+
+type meterCommand struct {
+	ChildCommand
+
+	meterName  string
+	meterValue string
+}
+
+func newMeterCommand() *meterCommand {
+	c := &meterCommand{}
+	meterCmd := &cobra.Command{
+		Use:   "meter",
+		Short: "meter",
+		Long:  "meter",
+		RunE:  c.runCommand,
+	}
+
+	meterCmd.Flags().StringVar(&c.childOptions.host, "host", "", "takler host")
+	meterCmd.Flags().StringVar(&c.childOptions.port, "port", "", "takler port")
+	meterCmd.Flags().StringVar(&c.childOptions.nodePath, "node-path", "", "node path")
+	meterCmd.Flags().StringVar(&c.meterName, "meter-name", "", "meter name")
+	meterCmd.Flags().StringVar(&c.meterValue, "meter-value", "", "meter value")
+	meterCmd.MarkFlagRequired("meter-name")
+	meterCmd.MarkFlagRequired("meter-value")
+
+	c.cmd = meterCmd
+	return c
+}
+
+func (mc *meterCommand) runCommand(cmd *cobra.Command, args []string) error {
+	host := getHost(mc.childOptions.host)
+	port := getPort(mc.childOptions.port)
+	nodePath := getNodePath(mc.childOptions.nodePath)
+	meterName := mc.meterName
+	meterValue := mc.meterValue
+
+	fmt.Printf("%s:%s meter %s: %s with %s\n", host, port, nodePath, meterName, meterValue)
+
+	client := common.CreateTaklerServiceClient(host, port)
+	client.RunCommandMeter(nodePath, meterName, meterValue)
 
 	return nil
 }

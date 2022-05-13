@@ -27,6 +27,8 @@ func (b *commandsBuilder) addAll() *commandsBuilder {
 		newInitCommand(),
 		newCompleteCommand(),
 		newAbortCommand(),
+		newEventCommand(),
+		newMeterCommand(),
 
 		// query
 		newShowCommand(),

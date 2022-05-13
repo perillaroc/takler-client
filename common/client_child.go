@@ -50,7 +50,6 @@ func (c *TaklerServiceClient) RunCommandComplete(nodePath string) {
 	}
 
 	log.Printf("%d", r.GetFlag())
-
 }
 
 func (c *TaklerServiceClient) RunCommandAbort(nodePath string, reason string) {
@@ -74,5 +73,51 @@ func (c *TaklerServiceClient) RunCommandAbort(nodePath string, reason string) {
 	}
 
 	log.Printf("%d", r.GetFlag())
+}
 
+func (c *TaklerServiceClient) RunCommandEvent(nodePath string, eventName string) {
+	c.createConnection()
+	defer c.closeConnection()
+
+	c.createClient()
+
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	r, err := c.client.RunEventCommand(ctx, &pb.EventCommand{
+		ChildOptions: &pb.ChildCommandOptions{
+			NodePath: nodePath,
+		},
+		EventName: eventName,
+	})
+
+	if err != nil {
+		log.Fatalf("could not init: %v", err)
+	}
+
+	log.Printf("%d", r.GetFlag())
+}
+
+func (c *TaklerServiceClient) RunCommandMeter(nodePath string, meterName string, meterValue string) {
+	c.createConnection()
+	defer c.closeConnection()
+
+	c.createClient()
+
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	r, err := c.client.RunMeterCommand(ctx, &pb.MeterCommand{
+		ChildOptions: &pb.ChildCommandOptions{
+			NodePath: nodePath,
+		},
+		MeterName:  meterName,
+		MeterValue: meterValue,
+	})
+
+	if err != nil {
+		log.Fatalf("could not init: %v", err)
+	}
+
+	log.Printf("%d", r.GetFlag())
 }
