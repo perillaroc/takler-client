@@ -1,14 +1,9 @@
 package cmd
 
 import (
-	"context"
 	"fmt"
-	pb "github.com/perillaroc/takler-client/takler_protocol"
+	"github.com/perillaroc/takler-client/common"
 	"github.com/spf13/cobra"
-	"google.golang.org/grpc"
-	"google.golang.org/grpc/credentials/insecure"
-	"log"
-	"time"
 )
 
 type ChildCommand struct {
@@ -54,30 +49,8 @@ func (mc *initCommand) runCommand(cmd *cobra.Command, args []string) error {
 	taskId := mc.taskId
 	fmt.Printf("%s:%s init %s with %s\n", host, port, nodePath, taskId)
 
-	serverAddr := fmt.Sprintf("%s:%s", host, port)
-	conn, err := grpc.Dial(serverAddr, grpc.WithTransportCredentials(insecure.NewCredentials()))
-	if err != nil {
-		log.Fatalf("did not connect: %v", err)
-	}
-	defer conn.Close()
-
-	c := pb.NewTaklerServerClient(conn)
-
-	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
-	defer cancel()
-
-	r, err := c.RunInitCommand(ctx, &pb.InitCommand{
-		ChildOptions: &pb.ChildCommandOptions{
-			NodePath: nodePath,
-		},
-		TaskId: taskId,
-	})
-
-	if err != nil {
-		log.Fatalf("could not init: %v", err)
-	}
-
-	log.Printf("%d", r.GetFlag())
+	client := common.CreateTaklerServiceClient(host, port)
+	client.RunCommandInit(nodePath, taskId)
 
 	return nil
 }
