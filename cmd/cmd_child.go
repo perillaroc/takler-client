@@ -16,6 +16,9 @@ type ChildCommand struct {
 	}
 }
 
+/*********************************************
+	init
+ *********************************************/
 type initCommand struct {
 	ChildCommand
 
@@ -51,6 +54,84 @@ func (mc *initCommand) runCommand(cmd *cobra.Command, args []string) error {
 
 	client := common.CreateTaklerServiceClient(host, port)
 	client.RunCommandInit(nodePath, taskId)
+
+	return nil
+}
+
+/*********************************************
+	complete
+ *********************************************/
+type completeCommand struct {
+	ChildCommand
+}
+
+func newCompleteCommand() *completeCommand {
+	c := &completeCommand{}
+	completeCmd := &cobra.Command{
+		Use:   "complete",
+		Short: "complete",
+		Long:  "complete",
+		RunE:  c.runCommand,
+	}
+
+	completeCmd.Flags().StringVar(&c.childOptions.host, "host", "", "takler host")
+	completeCmd.Flags().StringVar(&c.childOptions.port, "port", "", "takler port")
+	completeCmd.Flags().StringVar(&c.childOptions.nodePath, "node-path", "", "node path")
+
+	c.cmd = completeCmd
+	return c
+}
+
+func (mc *completeCommand) runCommand(cmd *cobra.Command, args []string) error {
+	host := getHost(mc.childOptions.host)
+	port := getPort(mc.childOptions.port)
+	nodePath := getNodePath(mc.childOptions.nodePath)
+
+	fmt.Printf("%s:%s complete %s\n", host, port, nodePath)
+
+	client := common.CreateTaklerServiceClient(host, port)
+	client.RunCommandComplete(nodePath)
+
+	return nil
+}
+
+/*********************************************
+	abort
+ *********************************************/
+type abortCommand struct {
+	ChildCommand
+
+	reason string
+}
+
+func newAbortCommand() *abortCommand {
+	c := &abortCommand{}
+	abortCmd := &cobra.Command{
+		Use:   "abort",
+		Short: "abort",
+		Long:  "abort",
+		RunE:  c.runCommand,
+	}
+
+	abortCmd.Flags().StringVar(&c.childOptions.host, "host", "", "takler host")
+	abortCmd.Flags().StringVar(&c.childOptions.port, "port", "", "takler port")
+	abortCmd.Flags().StringVar(&c.childOptions.nodePath, "node-path", "", "node path")
+	abortCmd.Flags().StringVar(&c.reason, "reason", "", "abort reason")
+
+	c.cmd = abortCmd
+	return c
+}
+
+func (mc *abortCommand) runCommand(cmd *cobra.Command, args []string) error {
+	host := getHost(mc.childOptions.host)
+	port := getPort(mc.childOptions.port)
+	nodePath := getNodePath(mc.childOptions.nodePath)
+	reason := mc.reason
+
+	fmt.Printf("%s:%s abort %s: %s\n", host, port, nodePath, reason)
+
+	client := common.CreateTaklerServiceClient(host, port)
+	client.RunCommandAbort(nodePath, reason)
 
 	return nil
 }
