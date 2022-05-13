@@ -23,9 +23,14 @@ func (b *commandsBuilder) addCommands(commands ...Command) *commandsBuilder {
 
 func (b *commandsBuilder) addAll() *commandsBuilder {
 	b.addCommands(
+		// child
 		newInitCommand(),
 		newCompleteCommand(),
-		newAbortCommand())
+		newAbortCommand(),
+
+		// query
+		newShowCommand(),
+	)
 	return b
 }
 
