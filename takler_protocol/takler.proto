@@ -1,7 +1,14 @@
 syntax = "proto3";
+/*
+Python
 
-// python -m grpc_tools.protoc -I. --python_out=. --grpc_python_out=. takler/server/protocol/takler.proto
-// protoc --go_out=. --go_opt=paths=source_relative --go-grpc_out=. --go-grpc_opt=paths=source_relative .\takler_protocol\takler.proto
+    python -m grpc_tools.protoc -I. --python_out=. --grpc_python_out=. takler/server/protocol/takler.proto
+
+Golang
+
+    protoc --go_out=. --go_opt=paths=source_relative --go-grpc_out=. --go-grpc_opt=paths=source_relative .\takler_protocol\takler.proto
+*/
+
 
 option go_package = "github.com/perillaroc/takler-client/takler_protocol";
 
@@ -50,6 +57,10 @@ message RequeueCommand {
   string node_path = 1;
 }
 
+message SuspendCommand {
+  repeated string node_path = 1;
+}
+
 // query command
 
 message ShowRequest{
@@ -71,6 +82,9 @@ service TaklerServer {
   // control command
 
   rpc RunRequeueCommand(RequeueCommand) returns (ServiceResponse){}
+
+  rpc RunSuspendCommand(SuspendCommand) returns (ServiceResponse){}
+  rpc RunResumeCommand(SuspendCommand) returns (ServiceResponse){}
 
   // query command
 

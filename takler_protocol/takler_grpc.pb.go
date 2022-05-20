@@ -29,6 +29,8 @@ type TaklerServerClient interface {
 	RunEventCommand(ctx context.Context, in *EventCommand, opts ...grpc.CallOption) (*ServiceResponse, error)
 	RunMeterCommand(ctx context.Context, in *MeterCommand, opts ...grpc.CallOption) (*ServiceResponse, error)
 	RunRequeueCommand(ctx context.Context, in *RequeueCommand, opts ...grpc.CallOption) (*ServiceResponse, error)
+	RunSuspendCommand(ctx context.Context, in *SuspendCommand, opts ...grpc.CallOption) (*ServiceResponse, error)
+	RunResumeCommand(ctx context.Context, in *SuspendCommand, opts ...grpc.CallOption) (*ServiceResponse, error)
 	RunShowRequest(ctx context.Context, in *ShowRequest, opts ...grpc.CallOption) (*ShowResponse, error)
 }
 
@@ -94,6 +96,24 @@ func (c *taklerServerClient) RunRequeueCommand(ctx context.Context, in *RequeueC
 	return out, nil
 }
 
+func (c *taklerServerClient) RunSuspendCommand(ctx context.Context, in *SuspendCommand, opts ...grpc.CallOption) (*ServiceResponse, error) {
+	out := new(ServiceResponse)
+	err := c.cc.Invoke(ctx, "/takler_protocol.TaklerServer/RunSuspendCommand", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *taklerServerClient) RunResumeCommand(ctx context.Context, in *SuspendCommand, opts ...grpc.CallOption) (*ServiceResponse, error) {
+	out := new(ServiceResponse)
+	err := c.cc.Invoke(ctx, "/takler_protocol.TaklerServer/RunResumeCommand", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *taklerServerClient) RunShowRequest(ctx context.Context, in *ShowRequest, opts ...grpc.CallOption) (*ShowResponse, error) {
 	out := new(ShowResponse)
 	err := c.cc.Invoke(ctx, "/takler_protocol.TaklerServer/RunShowRequest", in, out, opts...)
@@ -114,6 +134,8 @@ type TaklerServerServer interface {
 	RunEventCommand(context.Context, *EventCommand) (*ServiceResponse, error)
 	RunMeterCommand(context.Context, *MeterCommand) (*ServiceResponse, error)
 	RunRequeueCommand(context.Context, *RequeueCommand) (*ServiceResponse, error)
+	RunSuspendCommand(context.Context, *SuspendCommand) (*ServiceResponse, error)
+	RunResumeCommand(context.Context, *SuspendCommand) (*ServiceResponse, error)
 	RunShowRequest(context.Context, *ShowRequest) (*ShowResponse, error)
 	mustEmbedUnimplementedTaklerServerServer()
 }
@@ -139,6 +161,12 @@ func (UnimplementedTaklerServerServer) RunMeterCommand(context.Context, *MeterCo
 }
 func (UnimplementedTaklerServerServer) RunRequeueCommand(context.Context, *RequeueCommand) (*ServiceResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RunRequeueCommand not implemented")
+}
+func (UnimplementedTaklerServerServer) RunSuspendCommand(context.Context, *SuspendCommand) (*ServiceResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RunSuspendCommand not implemented")
+}
+func (UnimplementedTaklerServerServer) RunResumeCommand(context.Context, *SuspendCommand) (*ServiceResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RunResumeCommand not implemented")
 }
 func (UnimplementedTaklerServerServer) RunShowRequest(context.Context, *ShowRequest) (*ShowResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RunShowRequest not implemented")
@@ -264,6 +292,42 @@ func _TaklerServer_RunRequeueCommand_Handler(srv interface{}, ctx context.Contex
 	return interceptor(ctx, in, info, handler)
 }
 
+func _TaklerServer_RunSuspendCommand_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SuspendCommand)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TaklerServerServer).RunSuspendCommand(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/takler_protocol.TaklerServer/RunSuspendCommand",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TaklerServerServer).RunSuspendCommand(ctx, req.(*SuspendCommand))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _TaklerServer_RunResumeCommand_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SuspendCommand)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TaklerServerServer).RunResumeCommand(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/takler_protocol.TaklerServer/RunResumeCommand",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TaklerServerServer).RunResumeCommand(ctx, req.(*SuspendCommand))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _TaklerServer_RunShowRequest_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ShowRequest)
 	if err := dec(in); err != nil {
@@ -312,6 +376,14 @@ var TaklerServer_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "RunRequeueCommand",
 			Handler:    _TaklerServer_RunRequeueCommand_Handler,
+		},
+		{
+			MethodName: "RunSuspendCommand",
+			Handler:    _TaklerServer_RunSuspendCommand_Handler,
+		},
+		{
+			MethodName: "RunResumeCommand",
+			Handler:    _TaklerServer_RunResumeCommand_Handler,
 		},
 		{
 			MethodName: "RunShowRequest",
