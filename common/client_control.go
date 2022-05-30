@@ -46,3 +46,24 @@ func (c *TaklerServiceClient) RunCommandResume(nodePaths []string) {
 
 	log.Printf("%d", r.GetFlag())
 }
+
+func (c *TaklerServiceClient) RunCommandRun(nodePaths []string, force bool) {
+	c.createConnection()
+	defer c.closeConnection()
+
+	c.createClient()
+
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	r, err := c.client.RunRunCommand(ctx, &pb.RunCommand{
+		NodePath: nodePaths,
+		Force:    force,
+	})
+
+	if err != nil {
+		log.Fatalf("could not run: %v", err)
+	}
+
+	log.Printf("%d", r.GetFlag())
+}

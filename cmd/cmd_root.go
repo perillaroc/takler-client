@@ -33,6 +33,7 @@ func (b *commandsBuilder) addAll() *commandsBuilder {
 		// control
 		newSuspendCommand(),
 		newResumeCommand(),
+		newRunCommand(),
 
 		// query
 		newShowCommand(),
