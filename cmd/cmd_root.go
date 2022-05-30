@@ -30,7 +30,7 @@ func (b *commandsBuilder) addAll() *commandsBuilder {
 		newEventCommand(),
 		newMeterCommand(),
 
-		// operation
+		// control
 		newSuspendCommand(),
 		newResumeCommand(),
 
