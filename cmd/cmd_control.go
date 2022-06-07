@@ -7,6 +7,48 @@ import (
 )
 
 /*********************************************
+	requeue
+ *********************************************/
+
+type requeueCommand struct {
+	BaseCommand
+
+	host string
+	port string
+	//nodePaths []string
+}
+
+func newRequeueCommand() *requeueCommand {
+	c := &requeueCommand{}
+	requeueCmd := &cobra.Command{
+		Use:   "requeue",
+		Short: "requeue",
+		Long:  "requeue",
+		Args:  cobra.MinimumNArgs(1),
+		RunE:  c.runCommand,
+	}
+
+	requeueCmd.Flags().StringVar(&c.host, "host", "", "takler host")
+	requeueCmd.Flags().StringVar(&c.port, "port", "", "takler port")
+
+	c.cmd = requeueCmd
+	return c
+}
+
+func (mc *requeueCommand) runCommand(cmd *cobra.Command, args []string) error {
+	host := getHost(mc.host)
+	port := getPort(mc.port)
+	nodePaths := args
+
+	fmt.Printf("%s:%s requeue: %s\n", host, port, nodePaths)
+
+	client := common.CreateTaklerServiceClient(host, port)
+	client.RunCommandRequeue(nodePaths)
+
+	return nil
+}
+
+/*********************************************
 	suspend
  *********************************************/
 

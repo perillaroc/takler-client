@@ -31,6 +31,7 @@ func (b *commandsBuilder) addAll() *commandsBuilder {
 		newMeterCommand(),
 
 		// control
+		newRequeueCommand(),
 		newSuspendCommand(),
 		newResumeCommand(),
 		newRunCommand(),

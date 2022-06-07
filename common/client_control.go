@@ -7,6 +7,26 @@ import (
 	"time"
 )
 
+func (c *TaklerServiceClient) RunCommandRequeue(nodePaths []string) {
+	c.createConnection()
+	defer c.closeConnection()
+
+	c.createClient()
+
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	r, err := c.client.RunRequeueCommand(ctx, &pb.RequeueCommand{
+		NodePath: nodePaths,
+	})
+
+	if err != nil {
+		log.Fatalf("could not requeue: %v", err)
+	}
+
+	log.Printf("%d", r.GetFlag())
+}
+
 func (c *TaklerServiceClient) RunCommandSuspend(nodePaths []string) {
 	c.createConnection()
 	defer c.closeConnection()
