@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/perillaroc/takler-client/common"
 	"github.com/spf13/cobra"
+	"os"
 )
 
 type ChildCommand struct {
@@ -13,6 +14,15 @@ type ChildCommand struct {
 		host     string
 		port     string
 		nodePath string
+	}
+}
+
+func ignoreChangeCommand() bool {
+	_, ok := os.LookupEnv("NO_TAKLER")
+	if !ok {
+		return false
+	} else {
+		return true
 	}
 }
 
@@ -46,6 +56,11 @@ func newInitCommand() *initCommand {
 }
 
 func (mc *initCommand) runCommand(cmd *cobra.Command, args []string) error {
+	if ignoreChangeCommand() {
+		fmt.Printf("ignore because NO_TAKLER is set.\n")
+		return nil
+	}
+
 	host := getHost(mc.childOptions.host)
 	port := getPort(mc.childOptions.port)
 	nodePath := getNodePath(mc.childOptions.nodePath)
@@ -85,6 +100,11 @@ func newCompleteCommand() *completeCommand {
 }
 
 func (mc *completeCommand) runCommand(cmd *cobra.Command, args []string) error {
+	if ignoreChangeCommand() {
+		fmt.Printf("ignore because NO_TAKLER is set.\n")
+		return nil
+	}
+
 	host := getHost(mc.childOptions.host)
 	port := getPort(mc.childOptions.port)
 	nodePath := getNodePath(mc.childOptions.nodePath)
@@ -126,6 +146,11 @@ func newAbortCommand() *abortCommand {
 }
 
 func (mc *abortCommand) runCommand(cmd *cobra.Command, args []string) error {
+	if ignoreChangeCommand() {
+		fmt.Printf("ignore because NO_TAKLER is set.\n")
+		return nil
+	}
+
 	host := getHost(mc.childOptions.host)
 	port := getPort(mc.childOptions.port)
 	nodePath := getNodePath(mc.childOptions.nodePath)
@@ -169,6 +194,11 @@ func newEventCommand() *eventCommand {
 }
 
 func (mc *eventCommand) runCommand(cmd *cobra.Command, args []string) error {
+	if ignoreChangeCommand() {
+		fmt.Printf("ignore because NO_TAKLER is set.\n")
+		return nil
+	}
+
 	host := getHost(mc.childOptions.host)
 	port := getPort(mc.childOptions.port)
 	nodePath := getNodePath(mc.childOptions.nodePath)
@@ -215,6 +245,11 @@ func newMeterCommand() *meterCommand {
 }
 
 func (mc *meterCommand) runCommand(cmd *cobra.Command, args []string) error {
+	if ignoreChangeCommand() {
+		fmt.Printf("ignore because NO_TAKLER is set.\n")
+		return nil
+	}
+
 	host := getHost(mc.childOptions.host)
 	port := getPort(mc.childOptions.port)
 	nodePath := getNodePath(mc.childOptions.nodePath)
