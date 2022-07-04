@@ -40,8 +40,8 @@ func newInitCommand() *initCommand {
 	c := &initCommand{}
 	initCmd := &cobra.Command{
 		Use:   "init",
-		Short: "init",
-		Long:  "init",
+		Short: "mark task to active",
+		Long:  "mark task to active",
 		RunE:  c.runCommand,
 	}
 
@@ -86,8 +86,8 @@ func newCompleteCommand() *completeCommand {
 	c := &completeCommand{}
 	completeCmd := &cobra.Command{
 		Use:   "complete",
-		Short: "complete",
-		Long:  "complete",
+		Short: "mark task to complete",
+		Long:  "mark task to complete",
 		RunE:  c.runCommand,
 	}
 
@@ -131,8 +131,8 @@ func newAbortCommand() *abortCommand {
 	c := &abortCommand{}
 	abortCmd := &cobra.Command{
 		Use:   "abort",
-		Short: "abort",
-		Long:  "abort",
+		Short: "mark task to aborted",
+		Long:  "mark task to aborted",
 		RunE:  c.runCommand,
 	}
 
@@ -178,8 +178,8 @@ func newEventCommand() *eventCommand {
 	c := &eventCommand{}
 	eventCmd := &cobra.Command{
 		Use:   "event",
-		Short: "event",
-		Long:  "event",
+		Short: "change event",
+		Long:  "change event",
 		RunE:  c.runCommand,
 	}
 
@@ -227,8 +227,8 @@ func newMeterCommand() *meterCommand {
 	c := &meterCommand{}
 	meterCmd := &cobra.Command{
 		Use:   "meter",
-		Short: "meter",
-		Long:  "meter",
+		Short: "change meter",
+		Long:  "change meter",
 		RunE:  c.runCommand,
 	}
 

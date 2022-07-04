@@ -22,8 +22,8 @@ func newRequeueCommand() *requeueCommand {
 	c := &requeueCommand{}
 	requeueCmd := &cobra.Command{
 		Use:   "requeue",
-		Short: "requeue",
-		Long:  "requeue",
+		Short: "requeue given nodes",
+		Long:  "requeue given nodes",
 		Args:  cobra.MinimumNArgs(1),
 		RunE:  c.runCommand,
 	}
@@ -64,8 +64,8 @@ func newSuspendCommand() *suspendCommand {
 	c := &suspendCommand{}
 	suspendCmd := &cobra.Command{
 		Use:   "suspend",
-		Short: "suspend",
-		Long:  "suspend",
+		Short: "suspend given nodes",
+		Long:  "suspend given nodes",
 		Args:  cobra.MinimumNArgs(1),
 		RunE:  c.runCommand,
 	}
@@ -106,8 +106,8 @@ func newResumeCommand() *resumeCommand {
 	c := &resumeCommand{}
 	resumeCmd := &cobra.Command{
 		Use:   "resume",
-		Short: "resume",
-		Long:  "resume",
+		Short: "resume given nodes",
+		Long:  "resume given nodes",
 		Args:  cobra.MinimumNArgs(1),
 		RunE:  c.runCommand,
 	}
@@ -149,8 +149,8 @@ func newRunCommand() *runCommand {
 	c := &runCommand{}
 	runCmd := &cobra.Command{
 		Use:   "run",
-		Short: "run",
-		Long:  "run",
+		Short: "run the tasks, ignore triggers",
+		Long:  "run the tasks, ignore triggers",
 		Args:  cobra.MinimumNArgs(1),
 		RunE:  c.runCommand,
 	}

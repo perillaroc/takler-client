@@ -20,8 +20,8 @@ func newShowCommand() *showCommand {
 	c := &showCommand{}
 	showCmd := &cobra.Command{
 		Use:   "show",
-		Short: "show",
-		Long:  "show",
+		Short: "print state of all flows in server",
+		Long:  "print state of all flows in server",
 		RunE:  c.runCommand,
 	}
 
