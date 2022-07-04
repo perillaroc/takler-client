@@ -38,6 +38,7 @@ func (b *commandsBuilder) addAll() *commandsBuilder {
 
 		// query
 		newShowCommand(),
+		newPingCommand(),
 	)
 	return b
 }

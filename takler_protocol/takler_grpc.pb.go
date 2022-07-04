@@ -34,6 +34,7 @@ type TaklerServerClient interface {
 	RunRunCommand(ctx context.Context, in *RunCommand, opts ...grpc.CallOption) (*ServiceResponse, error)
 	RunForceCommand(ctx context.Context, in *ForceCommand, opts ...grpc.CallOption) (*ServiceResponse, error)
 	RunShowRequest(ctx context.Context, in *ShowRequest, opts ...grpc.CallOption) (*ShowResponse, error)
+	RunPingRequest(ctx context.Context, in *PingRequest, opts ...grpc.CallOption) (*PingResponse, error)
 }
 
 type taklerServerClient struct {
@@ -143,6 +144,15 @@ func (c *taklerServerClient) RunShowRequest(ctx context.Context, in *ShowRequest
 	return out, nil
 }
 
+func (c *taklerServerClient) RunPingRequest(ctx context.Context, in *PingRequest, opts ...grpc.CallOption) (*PingResponse, error) {
+	out := new(PingResponse)
+	err := c.cc.Invoke(ctx, "/takler_protocol.TaklerServer/RunPingRequest", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // TaklerServerServer is the server API for TaklerServer service.
 // All implementations must embed UnimplementedTaklerServerServer
 // for forward compatibility
@@ -159,6 +169,7 @@ type TaklerServerServer interface {
 	RunRunCommand(context.Context, *RunCommand) (*ServiceResponse, error)
 	RunForceCommand(context.Context, *ForceCommand) (*ServiceResponse, error)
 	RunShowRequest(context.Context, *ShowRequest) (*ShowResponse, error)
+	RunPingRequest(context.Context, *PingRequest) (*PingResponse, error)
 	mustEmbedUnimplementedTaklerServerServer()
 }
 
@@ -198,6 +209,9 @@ func (UnimplementedTaklerServerServer) RunForceCommand(context.Context, *ForceCo
 }
 func (UnimplementedTaklerServerServer) RunShowRequest(context.Context, *ShowRequest) (*ShowResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RunShowRequest not implemented")
+}
+func (UnimplementedTaklerServerServer) RunPingRequest(context.Context, *PingRequest) (*PingResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RunPingRequest not implemented")
 }
 func (UnimplementedTaklerServerServer) mustEmbedUnimplementedTaklerServerServer() {}
 
@@ -410,6 +424,24 @@ func _TaklerServer_RunShowRequest_Handler(srv interface{}, ctx context.Context, 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _TaklerServer_RunPingRequest_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PingRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TaklerServerServer).RunPingRequest(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/takler_protocol.TaklerServer/RunPingRequest",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TaklerServerServer).RunPingRequest(ctx, req.(*PingRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // TaklerServer_ServiceDesc is the grpc.ServiceDesc for TaklerServer service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -460,6 +492,10 @@ var TaklerServer_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "RunShowRequest",
 			Handler:    _TaklerServer_RunShowRequest_Handler,
+		},
+		{
+			MethodName: "RunPingRequest",
+			Handler:    _TaklerServer_RunPingRequest_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
