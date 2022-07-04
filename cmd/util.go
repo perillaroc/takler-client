@@ -16,7 +16,7 @@ func getHost(host string) string {
 	if len(host) > 0 {
 		return host
 	}
-	return ""
+	return "localhost"
 }
 
 func getPort(port string) string {
@@ -27,7 +27,7 @@ func getPort(port string) string {
 	if len(port) > 0 {
 		return port
 	}
-	return ""
+	return "33083"
 }
 
 func getNodePath(nodePath string) string {
