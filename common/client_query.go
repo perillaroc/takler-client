@@ -45,5 +45,5 @@ func (c *TaklerServiceClient) RunQueryPing() {
 	endTime := time.Now()
 	d := endTime.Sub(startTime)
 
-	fmt.Printf("ping server (%s:%s) successed in %v\n", c.Host, c.Port, d)
+	fmt.Printf("ping server (%s:%s) succeeded in %v\n", c.Host, c.Port, d)
 }
