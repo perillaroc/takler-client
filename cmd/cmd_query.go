@@ -20,6 +20,7 @@ type showCommand struct {
 	showLimit     bool
 	showEvent     bool
 	showMeter     bool
+	showAll       bool
 }
 
 func newShowCommand() *showCommand {
@@ -33,11 +34,12 @@ func newShowCommand() *showCommand {
 
 	showCmd.Flags().StringVar(&c.host, "host", "", "takler host")
 	showCmd.Flags().StringVar(&c.port, "port", "", "takler port")
-	showCmd.Flags().BoolVar(&c.showParameter, "show-parameter", false, "show parameters")
 	showCmd.Flags().BoolVar(&c.showTrigger, "show-trigger", false, "show trigger")
+	showCmd.Flags().BoolVar(&c.showParameter, "show-parameter", false, "show parameters")
 	showCmd.Flags().BoolVar(&c.showLimit, "show-limit", true, "show limits")
 	showCmd.Flags().BoolVar(&c.showEvent, "show-event", true, "show events")
 	showCmd.Flags().BoolVar(&c.showMeter, "show-meter", true, "show meters")
+	showCmd.Flags().BoolVar(&c.showAll, "show-all", false, "show all items, ignore other show options")
 
 	c.cmd = showCmd
 	return c
@@ -48,11 +50,19 @@ func (mc *showCommand) runCommand(cmd *cobra.Command, args []string) error {
 	port := getPort(mc.port)
 
 	fmt.Printf("%s:%s show\n", host, port)
-	fmt.Printf("%v %v %v %v %v\n", mc.showParameter, mc.showTrigger, mc.showLimit, mc.showEvent, mc.showMeter)
+
+	if mc.showAll {
+		mc.showTrigger = true
+		mc.showParameter = true
+		mc.showLimit = true
+		mc.showEvent = true
+		mc.showMeter = true
+	}
+
 	client := common.CreateTaklerServiceClient(host, port)
 	client.RunQueryShow(
-		mc.showParameter,
 		mc.showTrigger,
+		mc.showParameter,
 		mc.showLimit,
 		mc.showEvent,
 		mc.showMeter)

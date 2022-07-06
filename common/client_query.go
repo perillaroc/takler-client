@@ -9,8 +9,8 @@ import (
 )
 
 func (c *TaklerServiceClient) RunQueryShow(
-	showParameter bool,
 	showTrigger bool,
+	showParameter bool,
 	showLimit bool,
 	showEvent bool,
 	showMeter bool,
@@ -24,8 +24,8 @@ func (c *TaklerServiceClient) RunQueryShow(
 	defer cancel()
 
 	r, err := c.client.RunShowRequest(ctx, &pb.ShowRequest{
-		ShowParameter: showParameter,
 		ShowTrigger:   showTrigger,
+		ShowParameter: showParameter,
 		ShowLimit:     showLimit,
 		ShowEvent:     showEvent,
 		ShowMeter:     showMeter,
