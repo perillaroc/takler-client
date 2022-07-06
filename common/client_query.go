@@ -8,7 +8,13 @@ import (
 	"time"
 )
 
-func (c *TaklerServiceClient) RunQueryShow() {
+func (c *TaklerServiceClient) RunQueryShow(
+	showParameter bool,
+	showTrigger bool,
+	showLimit bool,
+	showEvent bool,
+	showMeter bool,
+) {
 	c.createConnection()
 	defer c.closeConnection()
 
@@ -17,7 +23,13 @@ func (c *TaklerServiceClient) RunQueryShow() {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
-	r, err := c.client.RunShowRequest(ctx, &pb.ShowRequest{})
+	r, err := c.client.RunShowRequest(ctx, &pb.ShowRequest{
+		ShowParameter: showParameter,
+		ShowTrigger:   showTrigger,
+		ShowLimit:     showLimit,
+		ShowEvent:     showEvent,
+		ShowMeter:     showMeter,
+	})
 
 	if err != nil {
 		log.Fatalf("could not init: %v", err)
