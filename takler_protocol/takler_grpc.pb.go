@@ -33,8 +33,11 @@ type TaklerServerClient interface {
 	RunResumeCommand(ctx context.Context, in *SuspendCommand, opts ...grpc.CallOption) (*ServiceResponse, error)
 	RunRunCommand(ctx context.Context, in *RunCommand, opts ...grpc.CallOption) (*ServiceResponse, error)
 	RunForceCommand(ctx context.Context, in *ForceCommand, opts ...grpc.CallOption) (*ServiceResponse, error)
+	RunFreeDepCommand(ctx context.Context, in *FreeDepCommand, opts ...grpc.CallOption) (*ServiceResponse, error)
+	RunLoadCommand(ctx context.Context, in *LoadCommand, opts ...grpc.CallOption) (*ServiceResponse, error)
 	RunShowRequest(ctx context.Context, in *ShowRequest, opts ...grpc.CallOption) (*ShowResponse, error)
 	RunPingRequest(ctx context.Context, in *PingRequest, opts ...grpc.CallOption) (*PingResponse, error)
+	QueryCoroutine(ctx context.Context, in *CoroutineRequest, opts ...grpc.CallOption) (*CoroutineResponse, error)
 }
 
 type taklerServerClient struct {
@@ -135,6 +138,24 @@ func (c *taklerServerClient) RunForceCommand(ctx context.Context, in *ForceComma
 	return out, nil
 }
 
+func (c *taklerServerClient) RunFreeDepCommand(ctx context.Context, in *FreeDepCommand, opts ...grpc.CallOption) (*ServiceResponse, error) {
+	out := new(ServiceResponse)
+	err := c.cc.Invoke(ctx, "/takler_protocol.TaklerServer/RunFreeDepCommand", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *taklerServerClient) RunLoadCommand(ctx context.Context, in *LoadCommand, opts ...grpc.CallOption) (*ServiceResponse, error) {
+	out := new(ServiceResponse)
+	err := c.cc.Invoke(ctx, "/takler_protocol.TaklerServer/RunLoadCommand", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *taklerServerClient) RunShowRequest(ctx context.Context, in *ShowRequest, opts ...grpc.CallOption) (*ShowResponse, error) {
 	out := new(ShowResponse)
 	err := c.cc.Invoke(ctx, "/takler_protocol.TaklerServer/RunShowRequest", in, out, opts...)
@@ -147,6 +168,15 @@ func (c *taklerServerClient) RunShowRequest(ctx context.Context, in *ShowRequest
 func (c *taklerServerClient) RunPingRequest(ctx context.Context, in *PingRequest, opts ...grpc.CallOption) (*PingResponse, error) {
 	out := new(PingResponse)
 	err := c.cc.Invoke(ctx, "/takler_protocol.TaklerServer/RunPingRequest", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *taklerServerClient) QueryCoroutine(ctx context.Context, in *CoroutineRequest, opts ...grpc.CallOption) (*CoroutineResponse, error) {
+	out := new(CoroutineResponse)
+	err := c.cc.Invoke(ctx, "/takler_protocol.TaklerServer/QueryCoroutine", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -168,8 +198,11 @@ type TaklerServerServer interface {
 	RunResumeCommand(context.Context, *SuspendCommand) (*ServiceResponse, error)
 	RunRunCommand(context.Context, *RunCommand) (*ServiceResponse, error)
 	RunForceCommand(context.Context, *ForceCommand) (*ServiceResponse, error)
+	RunFreeDepCommand(context.Context, *FreeDepCommand) (*ServiceResponse, error)
+	RunLoadCommand(context.Context, *LoadCommand) (*ServiceResponse, error)
 	RunShowRequest(context.Context, *ShowRequest) (*ShowResponse, error)
 	RunPingRequest(context.Context, *PingRequest) (*PingResponse, error)
+	QueryCoroutine(context.Context, *CoroutineRequest) (*CoroutineResponse, error)
 	mustEmbedUnimplementedTaklerServerServer()
 }
 
@@ -207,11 +240,20 @@ func (UnimplementedTaklerServerServer) RunRunCommand(context.Context, *RunComman
 func (UnimplementedTaklerServerServer) RunForceCommand(context.Context, *ForceCommand) (*ServiceResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RunForceCommand not implemented")
 }
+func (UnimplementedTaklerServerServer) RunFreeDepCommand(context.Context, *FreeDepCommand) (*ServiceResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RunFreeDepCommand not implemented")
+}
+func (UnimplementedTaklerServerServer) RunLoadCommand(context.Context, *LoadCommand) (*ServiceResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RunLoadCommand not implemented")
+}
 func (UnimplementedTaklerServerServer) RunShowRequest(context.Context, *ShowRequest) (*ShowResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RunShowRequest not implemented")
 }
 func (UnimplementedTaklerServerServer) RunPingRequest(context.Context, *PingRequest) (*PingResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RunPingRequest not implemented")
+}
+func (UnimplementedTaklerServerServer) QueryCoroutine(context.Context, *CoroutineRequest) (*CoroutineResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method QueryCoroutine not implemented")
 }
 func (UnimplementedTaklerServerServer) mustEmbedUnimplementedTaklerServerServer() {}
 
@@ -406,6 +448,42 @@ func _TaklerServer_RunForceCommand_Handler(srv interface{}, ctx context.Context,
 	return interceptor(ctx, in, info, handler)
 }
 
+func _TaklerServer_RunFreeDepCommand_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(FreeDepCommand)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TaklerServerServer).RunFreeDepCommand(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/takler_protocol.TaklerServer/RunFreeDepCommand",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TaklerServerServer).RunFreeDepCommand(ctx, req.(*FreeDepCommand))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _TaklerServer_RunLoadCommand_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(LoadCommand)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TaklerServerServer).RunLoadCommand(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/takler_protocol.TaklerServer/RunLoadCommand",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TaklerServerServer).RunLoadCommand(ctx, req.(*LoadCommand))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _TaklerServer_RunShowRequest_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ShowRequest)
 	if err := dec(in); err != nil {
@@ -438,6 +516,24 @@ func _TaklerServer_RunPingRequest_Handler(srv interface{}, ctx context.Context, 
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(TaklerServerServer).RunPingRequest(ctx, req.(*PingRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _TaklerServer_QueryCoroutine_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CoroutineRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TaklerServerServer).QueryCoroutine(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/takler_protocol.TaklerServer/QueryCoroutine",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TaklerServerServer).QueryCoroutine(ctx, req.(*CoroutineRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -490,12 +586,24 @@ var TaklerServer_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _TaklerServer_RunForceCommand_Handler,
 		},
 		{
+			MethodName: "RunFreeDepCommand",
+			Handler:    _TaklerServer_RunFreeDepCommand_Handler,
+		},
+		{
+			MethodName: "RunLoadCommand",
+			Handler:    _TaklerServer_RunLoadCommand_Handler,
+		},
+		{
 			MethodName: "RunShowRequest",
 			Handler:    _TaklerServer_RunShowRequest_Handler,
 		},
 		{
 			MethodName: "RunPingRequest",
 			Handler:    _TaklerServer_RunPingRequest_Handler,
+		},
+		{
+			MethodName: "QueryCoroutine",
+			Handler:    _TaklerServer_QueryCoroutine_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

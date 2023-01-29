@@ -82,6 +82,21 @@ message ForceCommand {
   repeated string path = 3;
 }
 
+message FreeDepCommand {
+  enum DepType {
+    all = 0;
+    trigger = 1;
+    time = 2;
+  }
+  DepType dep_type = 1;
+  repeated string path = 2;
+}
+
+message LoadCommand {
+  string flow_type = 1;
+  bytes flow = 2;
+}
+
 // query command
 
 message ShowRequest{
@@ -101,6 +116,20 @@ message PingRequest {
 
 message PingResponse {
 }
+
+message Coroutine{
+  string name = 1;
+  string description = 2;
+}
+
+message CoroutineRequest {
+}
+
+message CoroutineResponse {
+  repeated Coroutine coroutines = 1;
+}
+
+
 
 service TaklerServer {
 
@@ -122,9 +151,16 @@ service TaklerServer {
 
   rpc RunForceCommand(ForceCommand) returns (ServiceResponse) {}
 
+  rpc RunFreeDepCommand(FreeDepCommand) returns (ServiceResponse) {}
+
+  rpc RunLoadCommand(LoadCommand) returns (ServiceResponse) {}
+
+
   // query command
 
   rpc RunShowRequest(ShowRequest) returns (ShowResponse){}
 
   rpc RunPingRequest(PingRequest) returns (PingResponse){}
+
+  rpc QueryCoroutine(CoroutineRequest) returns (CoroutineResponse){}
 }
