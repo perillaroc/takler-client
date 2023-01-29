@@ -27,7 +27,7 @@ func newShowCommand() *showCommand {
 	c := &showCommand{}
 	showCmd := &cobra.Command{
 		Use:   "show",
-		Short: "print state of all flows in server",
+		Short: "[query] print bunch tree.",
 		Long:  "print state of all flows in server",
 		RunE:  c.runCommand,
 	}
@@ -84,7 +84,7 @@ func newPingCommand() *pingCommand {
 	c := &pingCommand{}
 	pingCmd := &cobra.Command{
 		Use:   "ping",
-		Short: "ping server",
+		Short: "[query] check the server is running with given host and hort.",
 		Long:  "ping server",
 		RunE:  c.runCommand,
 	}

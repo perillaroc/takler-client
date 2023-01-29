@@ -40,13 +40,13 @@ func newInitCommand() *initCommand {
 	c := &initCommand{}
 	initCmd := &cobra.Command{
 		Use:   "init",
-		Short: "mark task to active",
+		Short: "[child] init the task.",
 		Long:  "mark task to active",
 		RunE:  c.runCommand,
 	}
 
-	initCmd.Flags().StringVar(&c.childOptions.host, "host", "", "takler host")
-	initCmd.Flags().StringVar(&c.childOptions.port, "port", "", "takler port")
+	initCmd.Flags().StringVar(&c.childOptions.host, "host", "", "takler service host")
+	initCmd.Flags().StringVar(&c.childOptions.port, "port", "", "takler service port")
 	initCmd.Flags().StringVar(&c.childOptions.nodePath, "node-path", "", "node path")
 	initCmd.Flags().StringVar(&c.taskId, "task-id", "", "task id")
 	initCmd.MarkFlagRequired("task-id")
@@ -86,13 +86,13 @@ func newCompleteCommand() *completeCommand {
 	c := &completeCommand{}
 	completeCmd := &cobra.Command{
 		Use:   "complete",
-		Short: "mark task to complete",
+		Short: "[child] complete the task.",
 		Long:  "mark task to complete",
 		RunE:  c.runCommand,
 	}
 
-	completeCmd.Flags().StringVar(&c.childOptions.host, "host", "", "takler host")
-	completeCmd.Flags().StringVar(&c.childOptions.port, "port", "", "takler port")
+	completeCmd.Flags().StringVar(&c.childOptions.host, "host", "", "takler service host")
+	completeCmd.Flags().StringVar(&c.childOptions.port, "port", "", "takler service port")
 	completeCmd.Flags().StringVar(&c.childOptions.nodePath, "node-path", "", "node path")
 
 	c.cmd = completeCmd
@@ -131,13 +131,13 @@ func newAbortCommand() *abortCommand {
 	c := &abortCommand{}
 	abortCmd := &cobra.Command{
 		Use:   "abort",
-		Short: "mark task to aborted",
+		Short: "[child] abort the task.",
 		Long:  "mark task to aborted",
 		RunE:  c.runCommand,
 	}
 
-	abortCmd.Flags().StringVar(&c.childOptions.host, "host", "", "takler host")
-	abortCmd.Flags().StringVar(&c.childOptions.port, "port", "", "takler port")
+	abortCmd.Flags().StringVar(&c.childOptions.host, "host", "", "takler service host")
+	abortCmd.Flags().StringVar(&c.childOptions.port, "port", "", "takler service port")
 	abortCmd.Flags().StringVar(&c.childOptions.nodePath, "node-path", "", "node path")
 	abortCmd.Flags().StringVar(&c.reason, "reason", "", "abort reason")
 
@@ -178,13 +178,13 @@ func newEventCommand() *eventCommand {
 	c := &eventCommand{}
 	eventCmd := &cobra.Command{
 		Use:   "event",
-		Short: "change event",
+		Short: "[child] change Event.",
 		Long:  "change event",
 		RunE:  c.runCommand,
 	}
 
-	eventCmd.Flags().StringVar(&c.childOptions.host, "host", "", "takler host")
-	eventCmd.Flags().StringVar(&c.childOptions.port, "port", "", "takler port")
+	eventCmd.Flags().StringVar(&c.childOptions.host, "host", "", "takler service host")
+	eventCmd.Flags().StringVar(&c.childOptions.port, "port", "", "takler service port")
 	eventCmd.Flags().StringVar(&c.childOptions.nodePath, "node-path", "", "node path")
 	eventCmd.Flags().StringVar(&c.eventName, "event-name", "", "event name")
 	eventCmd.MarkFlagRequired("event-name")
@@ -227,13 +227,13 @@ func newMeterCommand() *meterCommand {
 	c := &meterCommand{}
 	meterCmd := &cobra.Command{
 		Use:   "meter",
-		Short: "change meter",
+		Short: "[child] change Meter.",
 		Long:  "change meter",
 		RunE:  c.runCommand,
 	}
 
-	meterCmd.Flags().StringVar(&c.childOptions.host, "host", "", "takler host")
-	meterCmd.Flags().StringVar(&c.childOptions.port, "port", "", "takler port")
+	meterCmd.Flags().StringVar(&c.childOptions.host, "host", "", "takler service host")
+	meterCmd.Flags().StringVar(&c.childOptions.port, "port", "", "takler service port")
 	meterCmd.Flags().StringVar(&c.childOptions.nodePath, "node-path", "", "node path")
 	meterCmd.Flags().StringVar(&c.meterName, "meter-name", "", "meter name")
 	meterCmd.Flags().StringVar(&c.meterValue, "meter-value", "", "meter value")
