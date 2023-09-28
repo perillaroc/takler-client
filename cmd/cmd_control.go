@@ -82,7 +82,7 @@ func (mc *suspendCommand) runCommand(cmd *cobra.Command, args []string) error {
 	port := getPort(mc.port)
 	nodePaths := args
 
-	fmt.Printf("%s:%s resume: %s\n", host, port, nodePaths)
+	fmt.Printf("%s:%s suspend: %s\n", host, port, nodePaths)
 
 	client := common.CreateTaklerServiceClient(host, port)
 	client.RunCommandSuspend(nodePaths)
