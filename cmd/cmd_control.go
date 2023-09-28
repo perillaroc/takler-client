@@ -28,8 +28,8 @@ func newRequeueCommand() *requeueCommand {
 		RunE:  c.runCommand,
 	}
 
-	requeueCmd.Flags().StringVar(&c.host, "host", "", "takler host")
-	requeueCmd.Flags().StringVar(&c.port, "port", "", "takler port")
+	requeueCmd.Flags().StringVar(&c.host, "host", "", "takler service host")
+	requeueCmd.Flags().StringVar(&c.port, "port", "", "takler service port")
 
 	c.cmd = requeueCmd
 	return c
@@ -70,8 +70,8 @@ func newSuspendCommand() *suspendCommand {
 		RunE:  c.runCommand,
 	}
 
-	suspendCmd.Flags().StringVar(&c.host, "host", "", "takler host")
-	suspendCmd.Flags().StringVar(&c.port, "port", "", "takler port")
+	suspendCmd.Flags().StringVar(&c.host, "host", "", "takler service host")
+	suspendCmd.Flags().StringVar(&c.port, "port", "", "takler service port")
 
 	c.cmd = suspendCmd
 	return c
@@ -112,8 +112,8 @@ func newResumeCommand() *resumeCommand {
 		RunE:  c.runCommand,
 	}
 
-	resumeCmd.Flags().StringVar(&c.host, "host", "", "takler host")
-	resumeCmd.Flags().StringVar(&c.port, "port", "", "takler port")
+	resumeCmd.Flags().StringVar(&c.host, "host", "", "takler service host")
+	resumeCmd.Flags().StringVar(&c.port, "port", "", "takler service port")
 
 	c.cmd = resumeCmd
 	return c
@@ -155,8 +155,8 @@ func newRunCommand() *runCommand {
 		RunE:  c.runCommand,
 	}
 
-	runCmd.Flags().StringVar(&c.host, "host", "", "takler host")
-	runCmd.Flags().StringVar(&c.port, "port", "", "takler port")
+	runCmd.Flags().StringVar(&c.host, "host", "", "takler service host")
+	runCmd.Flags().StringVar(&c.port, "port", "", "takler service port")
 	runCmd.Flags().BoolVar(&c.force, "force", false, "force run")
 
 	c.cmd = runCmd

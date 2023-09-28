@@ -6,9 +6,12 @@ import (
 	"github.com/spf13/cobra"
 )
 
-/*********************************************
-	show
- *********************************************/
+/*
+********************************************
+
+		show
+	 ********************************************
+*/
 type showCommand struct {
 	BaseCommand
 
@@ -32,8 +35,8 @@ func newShowCommand() *showCommand {
 		RunE:  c.runCommand,
 	}
 
-	showCmd.Flags().StringVar(&c.host, "host", "", "takler host")
-	showCmd.Flags().StringVar(&c.port, "port", "", "takler port")
+	showCmd.Flags().StringVar(&c.host, "host", "", "takler service host")
+	showCmd.Flags().StringVar(&c.port, "port", "", "takler service port")
 	showCmd.Flags().BoolVar(&c.showTrigger, "show-trigger", false, "show trigger")
 	showCmd.Flags().BoolVar(&c.showParameter, "show-parameter", false, "show parameters")
 	showCmd.Flags().BoolVar(&c.showLimit, "show-limit", true, "show limits")
@@ -70,9 +73,12 @@ func (mc *showCommand) runCommand(cmd *cobra.Command, args []string) error {
 	return nil
 }
 
-/*********************************************
-	ping
- *********************************************/
+/*
+********************************************
+
+		ping
+	 ********************************************
+*/
 type pingCommand struct {
 	BaseCommand
 
@@ -89,8 +95,8 @@ func newPingCommand() *pingCommand {
 		RunE:  c.runCommand,
 	}
 
-	pingCmd.Flags().StringVar(&c.host, "host", "", "takler host")
-	pingCmd.Flags().StringVar(&c.port, "port", "", "takler port")
+	pingCmd.Flags().StringVar(&c.host, "host", "", "takler service host")
+	pingCmd.Flags().StringVar(&c.port, "port", "", "takler service port")
 
 	c.cmd = pingCmd
 	return c

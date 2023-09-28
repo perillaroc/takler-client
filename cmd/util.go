@@ -3,9 +3,11 @@ package cmd
 import "os"
 
 const (
-	TaklerHost = "TAKLER_HOST"
-	TaklerPort = "TAKLER_PORT"
-	TaklerName = "TAKLER_NAME"
+	TaklerHost  = "TAKLER_HOST"
+	TaklerPort  = "TAKLER_PORT"
+	TaklerName  = "TAKLER_NAME"
+	DefaultHost = "localhost"
+	DefaultPort = "33083"
 )
 
 func getHost(host string) string {
@@ -16,7 +18,7 @@ func getHost(host string) string {
 	if len(host) > 0 {
 		return host
 	}
-	return "localhost"
+	return DefaultHost
 }
 
 func getPort(port string) string {
@@ -27,7 +29,7 @@ func getPort(port string) string {
 	if len(port) > 0 {
 		return port
 	}
-	return "33083"
+	return DefaultPort
 }
 
 func getNodePath(nodePath string) string {
