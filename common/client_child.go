@@ -16,7 +16,7 @@ func (c *TaklerServiceClient) RunCommandInit(nodePath string, taskId string) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
-	r, err := c.client.RunInitCommand(ctx, &pb.InitCommand{
+	r, err := c.client.RunCommandInit(ctx, &pb.InitCommand{
 		ChildOptions: &pb.ChildCommandOptions{
 			NodePath: nodePath,
 		},
@@ -39,7 +39,7 @@ func (c *TaklerServiceClient) RunCommandComplete(nodePath string) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
-	r, err := c.client.RunCompleteCommand(ctx, &pb.CompleteCommand{
+	r, err := c.client.RunCommandComplete(ctx, &pb.CompleteCommand{
 		ChildOptions: &pb.ChildCommandOptions{
 			NodePath: nodePath,
 		},
@@ -61,7 +61,7 @@ func (c *TaklerServiceClient) RunCommandAbort(nodePath string, reason string) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
-	r, err := c.client.RunAbortCommand(ctx, &pb.AbortCommand{
+	r, err := c.client.RunCommandAbort(ctx, &pb.AbortCommand{
 		ChildOptions: &pb.ChildCommandOptions{
 			NodePath: nodePath,
 		},
@@ -84,7 +84,7 @@ func (c *TaklerServiceClient) RunCommandEvent(nodePath string, eventName string)
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
-	r, err := c.client.RunEventCommand(ctx, &pb.EventCommand{
+	r, err := c.client.RunCommandEvent(ctx, &pb.EventCommand{
 		ChildOptions: &pb.ChildCommandOptions{
 			NodePath: nodePath,
 		},
@@ -107,7 +107,7 @@ func (c *TaklerServiceClient) RunCommandMeter(nodePath string, meterName string,
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
-	r, err := c.client.RunMeterCommand(ctx, &pb.MeterCommand{
+	r, err := c.client.RunCommandMeter(ctx, &pb.MeterCommand{
 		ChildOptions: &pb.ChildCommandOptions{
 			NodePath: nodePath,
 		},

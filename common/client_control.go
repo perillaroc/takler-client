@@ -16,7 +16,7 @@ func (c *TaklerServiceClient) RunCommandRequeue(nodePaths []string) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
-	r, err := c.client.RunRequeueCommand(ctx, &pb.RequeueCommand{
+	r, err := c.client.RunCommandRequeue(ctx, &pb.RequeueCommand{
 		NodePath: nodePaths,
 	})
 
@@ -36,7 +36,7 @@ func (c *TaklerServiceClient) RunCommandSuspend(nodePaths []string) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
-	r, err := c.client.RunSuspendCommand(ctx, &pb.SuspendCommand{
+	r, err := c.client.RunCommandSuspend(ctx, &pb.SuspendCommand{
 		NodePath: nodePaths,
 	})
 
@@ -56,7 +56,7 @@ func (c *TaklerServiceClient) RunCommandResume(nodePaths []string) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
-	r, err := c.client.RunResumeCommand(ctx, &pb.SuspendCommand{
+	r, err := c.client.RunCommandResume(ctx, &pb.SuspendCommand{
 		NodePath: nodePaths,
 	})
 
@@ -76,7 +76,7 @@ func (c *TaklerServiceClient) RunCommandRun(nodePaths []string, force bool) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
-	r, err := c.client.RunRunCommand(ctx, &pb.RunCommand{
+	r, err := c.client.RunCommandRun(ctx, &pb.RunCommand{
 		NodePath: nodePaths,
 		Force:    force,
 	})

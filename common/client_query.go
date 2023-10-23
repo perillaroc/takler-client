@@ -23,7 +23,7 @@ func (c *TaklerServiceClient) RunQueryShow(
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
-	r, err := c.client.RunShowRequest(ctx, &pb.ShowRequest{
+	r, err := c.client.RunRequestShow(ctx, &pb.ShowRequest{
 		ShowTrigger:   showTrigger,
 		ShowParameter: showParameter,
 		ShowLimit:     showLimit,
@@ -48,7 +48,7 @@ func (c *TaklerServiceClient) RunQueryPing() {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
-	_, err := c.client.RunPingRequest(ctx, &pb.PingRequest{})
+	_, err := c.client.RunRequestPing(ctx, &pb.PingRequest{})
 
 	if err != nil {
 		log.Fatalf("ping server (%s:%s) failed: %v", c.Host, c.Port, err)
