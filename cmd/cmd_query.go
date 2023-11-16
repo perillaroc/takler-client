@@ -9,8 +9,9 @@ import (
 /*
 ********************************************
 
-		show
-	 ********************************************
+	show
+
+********************************************
 */
 type showCommand struct {
 	BaseCommand
@@ -49,8 +50,7 @@ func newShowCommand() *showCommand {
 }
 
 func (mc *showCommand) runCommand(cmd *cobra.Command, args []string) error {
-	host := getHost(mc.host)
-	port := getPort(mc.port)
+	host, port := getHostAndPort(mc.host, mc.port)
 
 	fmt.Printf("%s:%s show\n", host, port)
 
@@ -76,8 +76,9 @@ func (mc *showCommand) runCommand(cmd *cobra.Command, args []string) error {
 /*
 ********************************************
 
-		ping
-	 ********************************************
+	ping
+
+********************************************
 */
 type pingCommand struct {
 	BaseCommand
@@ -103,8 +104,7 @@ func newPingCommand() *pingCommand {
 }
 
 func (mc *pingCommand) runCommand(cmd *cobra.Command, args []string) error {
-	host := getHost(mc.host)
-	port := getPort(mc.port)
+	host, port := getHostAndPort(mc.host, mc.port)
 
 	fmt.Printf("%s:%s ping\n", host, port)
 

@@ -61,8 +61,7 @@ func (mc *initCommand) runCommand(cmd *cobra.Command, args []string) error {
 		return nil
 	}
 
-	host := getHost(mc.childOptions.host)
-	port := getPort(mc.childOptions.port)
+	host, port := getHostAndPort(mc.childOptions.host, mc.childOptions.port)
 	nodePath := getNodePath(mc.childOptions.nodePath)
 
 	taskId := mc.taskId
@@ -105,8 +104,7 @@ func (mc *completeCommand) runCommand(cmd *cobra.Command, args []string) error {
 		return nil
 	}
 
-	host := getHost(mc.childOptions.host)
-	port := getPort(mc.childOptions.port)
+	host, port := getHostAndPort(mc.childOptions.host, mc.childOptions.port)
 	nodePath := getNodePath(mc.childOptions.nodePath)
 
 	fmt.Printf("%s:%s complete %s\n", host, port, nodePath)
@@ -151,8 +149,7 @@ func (mc *abortCommand) runCommand(cmd *cobra.Command, args []string) error {
 		return nil
 	}
 
-	host := getHost(mc.childOptions.host)
-	port := getPort(mc.childOptions.port)
+	host, port := getHostAndPort(mc.childOptions.host, mc.childOptions.port)
 	nodePath := getNodePath(mc.childOptions.nodePath)
 	reason := mc.reason
 
@@ -199,8 +196,7 @@ func (mc *eventCommand) runCommand(cmd *cobra.Command, args []string) error {
 		return nil
 	}
 
-	host := getHost(mc.childOptions.host)
-	port := getPort(mc.childOptions.port)
+	host, port := getHostAndPort(mc.childOptions.host, mc.childOptions.port)
 	nodePath := getNodePath(mc.childOptions.nodePath)
 	eventName := mc.eventName
 
@@ -250,8 +246,7 @@ func (mc *meterCommand) runCommand(cmd *cobra.Command, args []string) error {
 		return nil
 	}
 
-	host := getHost(mc.childOptions.host)
-	port := getPort(mc.childOptions.port)
+	host, port := getHostAndPort(mc.childOptions.host, mc.childOptions.port)
 	nodePath := getNodePath(mc.childOptions.nodePath)
 	meterName := mc.meterName
 	meterValue := mc.meterValue

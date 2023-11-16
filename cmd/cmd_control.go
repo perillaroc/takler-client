@@ -36,8 +36,7 @@ func newRequeueCommand() *requeueCommand {
 }
 
 func (mc *requeueCommand) runCommand(cmd *cobra.Command, args []string) error {
-	host := getHost(mc.host)
-	port := getPort(mc.port)
+	host, port := getHostAndPort(mc.host, mc.port)
 	nodePaths := args
 
 	fmt.Printf("%s:%s requeue: %s\n", host, port, nodePaths)
@@ -78,8 +77,7 @@ func newSuspendCommand() *suspendCommand {
 }
 
 func (mc *suspendCommand) runCommand(cmd *cobra.Command, args []string) error {
-	host := getHost(mc.host)
-	port := getPort(mc.port)
+	host, port := getHostAndPort(mc.host, mc.port)
 	nodePaths := args
 
 	fmt.Printf("%s:%s suspend: %s\n", host, port, nodePaths)
@@ -120,8 +118,7 @@ func newResumeCommand() *resumeCommand {
 }
 
 func (mc *resumeCommand) runCommand(cmd *cobra.Command, args []string) error {
-	host := getHost(mc.host)
-	port := getPort(mc.port)
+	host, port := getHostAndPort(mc.host, mc.port)
 	nodePaths := args
 
 	fmt.Printf("%s:%s resume: %s\n", host, port, nodePaths)
@@ -164,8 +161,7 @@ func newRunCommand() *runCommand {
 }
 
 func (mc *runCommand) runCommand(cmd *cobra.Command, args []string) error {
-	host := getHost(mc.host)
-	port := getPort(mc.port)
+	host, port := getHostAndPort(mc.host, mc.port)
 	nodePaths := args
 
 	fmt.Printf("%s:%s run: %s\n", host, port, nodePaths)
